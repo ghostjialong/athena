@@ -1,0 +1,18 @@
+syntax = "proto2";
+
+package com.athena.protobuf;
+
+option java_package = "com.athena.protobuf";
+option java_outer_classname = "MessageEntity";
+option optimize_for = SPEED;
+
+message Message{
+
+    required string messageId = 1;
+
+    required string toUserId  = 2;
+
+    optional string header = 3;
+
+    required string body = 4;
+}
