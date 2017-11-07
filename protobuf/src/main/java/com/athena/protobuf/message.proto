@@ -15,4 +15,5 @@ message Message{
     optional string header = 3;
 
     required string body = 4;
+
 }
