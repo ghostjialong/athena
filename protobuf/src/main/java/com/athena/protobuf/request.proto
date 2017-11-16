@@ -1,0 +1,27 @@
+syntax = "proto2";
+import "message.proto";
+
+package com.athena.protobuf;
+
+option java_package = "com.athena.protobuf";
+option java_outer_classname = "RequestEntity";
+option optimize_for = SPEED;
+
+enum PacketType {
+    HANDSHAKE = 1;
+    SUBSCRIBE = 2;
+    ACK = 3;
+    PUB = 4;
+}
+
+message Request{
+
+    required PacketType requestType = 1;
+
+    required int64 clientId = 2;
+
+    required string authToken = 3;
+
+    optional Message message = 4;
+
+}

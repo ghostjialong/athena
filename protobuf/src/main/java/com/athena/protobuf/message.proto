@@ -8,12 +8,19 @@ option optimize_for = SPEED;
 
 message Message{
 
-    required string messageId = 1;
+    required int64 messageId = 1;
 
-    required string toUserId  = 2;
+    required int64 senderId = 2;
 
-    optional string header = 3;
+    required int64 recipientId  = 3;
 
-    required string body = 4;
+    optional string header = 4;
+
+    required string body = 5;
+
+    required int32 type = 6;
+
+    optional int64 groupId = 7;
+
 
 }

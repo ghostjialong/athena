@@ -19,60 +19,77 @@ public final class MessageEntity {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>required string messageId = 1;</code>
+     * <code>required int64 messageId = 1;</code>
      */
     boolean hasMessageId();
     /**
-     * <code>required string messageId = 1;</code>
+     * <code>required int64 messageId = 1;</code>
      */
-    java.lang.String getMessageId();
-    /**
-     * <code>required string messageId = 1;</code>
-     */
-    com.google.protobuf.ByteString
-        getMessageIdBytes();
+    long getMessageId();
 
     /**
-     * <code>required string toUserId = 2;</code>
+     * <code>required int64 senderId = 2;</code>
      */
-    boolean hasToUserId();
+    boolean hasSenderId();
     /**
-     * <code>required string toUserId = 2;</code>
+     * <code>required int64 senderId = 2;</code>
      */
-    java.lang.String getToUserId();
-    /**
-     * <code>required string toUserId = 2;</code>
-     */
-    com.google.protobuf.ByteString
-        getToUserIdBytes();
+    long getSenderId();
 
     /**
-     * <code>optional string header = 3;</code>
+     * <code>required int64 recipientId = 3;</code>
+     */
+    boolean hasRecipientId();
+    /**
+     * <code>required int64 recipientId = 3;</code>
+     */
+    long getRecipientId();
+
+    /**
+     * <code>optional string header = 4;</code>
      */
     boolean hasHeader();
     /**
-     * <code>optional string header = 3;</code>
+     * <code>optional string header = 4;</code>
      */
     java.lang.String getHeader();
     /**
-     * <code>optional string header = 3;</code>
+     * <code>optional string header = 4;</code>
      */
     com.google.protobuf.ByteString
         getHeaderBytes();
 
     /**
-     * <code>required string body = 4;</code>
+     * <code>required string body = 5;</code>
      */
     boolean hasBody();
     /**
-     * <code>required string body = 4;</code>
+     * <code>required string body = 5;</code>
      */
     java.lang.String getBody();
     /**
-     * <code>required string body = 4;</code>
+     * <code>required string body = 5;</code>
      */
     com.google.protobuf.ByteString
         getBodyBytes();
+
+    /**
+     * <code>required int32 type = 6;</code>
+     */
+    boolean hasType();
+    /**
+     * <code>required int32 type = 6;</code>
+     */
+    int getType();
+
+    /**
+     * <code>optional int64 groupId = 7;</code>
+     */
+    boolean hasGroupId();
+    /**
+     * <code>optional int64 groupId = 7;</code>
+     */
+    long getGroupId();
   }
   /**
    * Protobuf type {@code com.athena.protobuf.Message}
@@ -87,10 +104,13 @@ public final class MessageEntity {
       super(builder);
     }
     private Message() {
-      messageId_ = "";
-      toUserId_ = "";
+      messageId_ = 0L;
+      senderId_ = 0L;
+      recipientId_ = 0L;
       header_ = "";
       body_ = "";
+      type_ = 0;
+      groupId_ = 0L;
     }
 
     @java.lang.Override
@@ -124,28 +144,41 @@ public final class MessageEntity {
               }
               break;
             }
-            case 10: {
-              com.google.protobuf.ByteString bs = input.readBytes();
+            case 8: {
               bitField0_ |= 0x00000001;
-              messageId_ = bs;
+              messageId_ = input.readInt64();
               break;
             }
-            case 18: {
-              com.google.protobuf.ByteString bs = input.readBytes();
+            case 16: {
               bitField0_ |= 0x00000002;
-              toUserId_ = bs;
+              senderId_ = input.readInt64();
               break;
             }
-            case 26: {
-              com.google.protobuf.ByteString bs = input.readBytes();
+            case 24: {
               bitField0_ |= 0x00000004;
-              header_ = bs;
+              recipientId_ = input.readInt64();
               break;
             }
             case 34: {
               com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000008;
+              header_ = bs;
+              break;
+            }
+            case 42: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000010;
               body_ = bs;
+              break;
+            }
+            case 48: {
+              bitField0_ |= 0x00000020;
+              type_ = input.readInt32();
+              break;
+            }
+            case 56: {
+              bitField0_ |= 0x00000040;
+              groupId_ = input.readInt64();
               break;
             }
           }
@@ -174,99 +207,60 @@ public final class MessageEntity {
 
     private int bitField0_;
     public static final int MESSAGEID_FIELD_NUMBER = 1;
-    private volatile java.lang.Object messageId_;
+    private long messageId_;
     /**
-     * <code>required string messageId = 1;</code>
+     * <code>required int64 messageId = 1;</code>
      */
     public boolean hasMessageId() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required string messageId = 1;</code>
+     * <code>required int64 messageId = 1;</code>
      */
-    public java.lang.String getMessageId() {
-      java.lang.Object ref = messageId_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          messageId_ = s;
-        }
-        return s;
-      }
-    }
-    /**
-     * <code>required string messageId = 1;</code>
-     */
-    public com.google.protobuf.ByteString
-        getMessageIdBytes() {
-      java.lang.Object ref = messageId_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        messageId_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public long getMessageId() {
+      return messageId_;
     }
 
-    public static final int TOUSERID_FIELD_NUMBER = 2;
-    private volatile java.lang.Object toUserId_;
+    public static final int SENDERID_FIELD_NUMBER = 2;
+    private long senderId_;
     /**
-     * <code>required string toUserId = 2;</code>
+     * <code>required int64 senderId = 2;</code>
      */
-    public boolean hasToUserId() {
+    public boolean hasSenderId() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>required string toUserId = 2;</code>
+     * <code>required int64 senderId = 2;</code>
      */
-    public java.lang.String getToUserId() {
-      java.lang.Object ref = toUserId_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          toUserId_ = s;
-        }
-        return s;
-      }
-    }
-    /**
-     * <code>required string toUserId = 2;</code>
-     */
-    public com.google.protobuf.ByteString
-        getToUserIdBytes() {
-      java.lang.Object ref = toUserId_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        toUserId_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public long getSenderId() {
+      return senderId_;
     }
 
-    public static final int HEADER_FIELD_NUMBER = 3;
-    private volatile java.lang.Object header_;
+    public static final int RECIPIENTID_FIELD_NUMBER = 3;
+    private long recipientId_;
     /**
-     * <code>optional string header = 3;</code>
+     * <code>required int64 recipientId = 3;</code>
      */
-    public boolean hasHeader() {
+    public boolean hasRecipientId() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>optional string header = 3;</code>
+     * <code>required int64 recipientId = 3;</code>
+     */
+    public long getRecipientId() {
+      return recipientId_;
+    }
+
+    public static final int HEADER_FIELD_NUMBER = 4;
+    private volatile java.lang.Object header_;
+    /**
+     * <code>optional string header = 4;</code>
+     */
+    public boolean hasHeader() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional string header = 4;</code>
      */
     public java.lang.String getHeader() {
       java.lang.Object ref = header_;
@@ -283,7 +277,7 @@ public final class MessageEntity {
       }
     }
     /**
-     * <code>optional string header = 3;</code>
+     * <code>optional string header = 4;</code>
      */
     public com.google.protobuf.ByteString
         getHeaderBytes() {
@@ -299,16 +293,16 @@ public final class MessageEntity {
       }
     }
 
-    public static final int BODY_FIELD_NUMBER = 4;
+    public static final int BODY_FIELD_NUMBER = 5;
     private volatile java.lang.Object body_;
     /**
-     * <code>required string body = 4;</code>
+     * <code>required string body = 5;</code>
      */
     public boolean hasBody() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
+      return ((bitField0_ & 0x00000010) == 0x00000010);
     }
     /**
-     * <code>required string body = 4;</code>
+     * <code>required string body = 5;</code>
      */
     public java.lang.String getBody() {
       java.lang.Object ref = body_;
@@ -325,7 +319,7 @@ public final class MessageEntity {
       }
     }
     /**
-     * <code>required string body = 4;</code>
+     * <code>required string body = 5;</code>
      */
     public com.google.protobuf.ByteString
         getBodyBytes() {
@@ -341,6 +335,36 @@ public final class MessageEntity {
       }
     }
 
+    public static final int TYPE_FIELD_NUMBER = 6;
+    private int type_;
+    /**
+     * <code>required int32 type = 6;</code>
+     */
+    public boolean hasType() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>required int32 type = 6;</code>
+     */
+    public int getType() {
+      return type_;
+    }
+
+    public static final int GROUPID_FIELD_NUMBER = 7;
+    private long groupId_;
+    /**
+     * <code>optional int64 groupId = 7;</code>
+     */
+    public boolean hasGroupId() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>optional int64 groupId = 7;</code>
+     */
+    public long getGroupId() {
+      return groupId_;
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -351,11 +375,19 @@ public final class MessageEntity {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasToUserId()) {
+      if (!hasSenderId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasRecipientId()) {
         memoizedIsInitialized = 0;
         return false;
       }
       if (!hasBody()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasType()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -366,16 +398,25 @@ public final class MessageEntity {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, messageId_);
+        output.writeInt64(1, messageId_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, toUserId_);
+        output.writeInt64(2, senderId_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, header_);
+        output.writeInt64(3, recipientId_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, body_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, header_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 5, body_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeInt32(6, type_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeInt64(7, groupId_);
       }
       unknownFields.writeTo(output);
     }
@@ -386,16 +427,30 @@ public final class MessageEntity {
 
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, messageId_);
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(1, messageId_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, toUserId_);
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(2, senderId_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, header_);
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(3, recipientId_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, body_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, header_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, body_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(6, type_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(7, groupId_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -415,13 +470,18 @@ public final class MessageEntity {
       boolean result = true;
       result = result && (hasMessageId() == other.hasMessageId());
       if (hasMessageId()) {
-        result = result && getMessageId()
-            .equals(other.getMessageId());
+        result = result && (getMessageId()
+            == other.getMessageId());
       }
-      result = result && (hasToUserId() == other.hasToUserId());
-      if (hasToUserId()) {
-        result = result && getToUserId()
-            .equals(other.getToUserId());
+      result = result && (hasSenderId() == other.hasSenderId());
+      if (hasSenderId()) {
+        result = result && (getSenderId()
+            == other.getSenderId());
+      }
+      result = result && (hasRecipientId() == other.hasRecipientId());
+      if (hasRecipientId()) {
+        result = result && (getRecipientId()
+            == other.getRecipientId());
       }
       result = result && (hasHeader() == other.hasHeader());
       if (hasHeader()) {
@@ -432,6 +492,16 @@ public final class MessageEntity {
       if (hasBody()) {
         result = result && getBody()
             .equals(other.getBody());
+      }
+      result = result && (hasType() == other.hasType());
+      if (hasType()) {
+        result = result && (getType()
+            == other.getType());
+      }
+      result = result && (hasGroupId() == other.hasGroupId());
+      if (hasGroupId()) {
+        result = result && (getGroupId()
+            == other.getGroupId());
       }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
@@ -446,11 +516,18 @@ public final class MessageEntity {
       hash = (19 * hash) + getDescriptor().hashCode();
       if (hasMessageId()) {
         hash = (37 * hash) + MESSAGEID_FIELD_NUMBER;
-        hash = (53 * hash) + getMessageId().hashCode();
+        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+            getMessageId());
       }
-      if (hasToUserId()) {
-        hash = (37 * hash) + TOUSERID_FIELD_NUMBER;
-        hash = (53 * hash) + getToUserId().hashCode();
+      if (hasSenderId()) {
+        hash = (37 * hash) + SENDERID_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+            getSenderId());
+      }
+      if (hasRecipientId()) {
+        hash = (37 * hash) + RECIPIENTID_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+            getRecipientId());
       }
       if (hasHeader()) {
         hash = (37 * hash) + HEADER_FIELD_NUMBER;
@@ -459,6 +536,15 @@ public final class MessageEntity {
       if (hasBody()) {
         hash = (37 * hash) + BODY_FIELD_NUMBER;
         hash = (53 * hash) + getBody().hashCode();
+      }
+      if (hasType()) {
+        hash = (37 * hash) + TYPE_FIELD_NUMBER;
+        hash = (53 * hash) + getType();
+      }
+      if (hasGroupId()) {
+        hash = (37 * hash) + GROUPID_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+            getGroupId());
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -589,14 +675,20 @@ public final class MessageEntity {
       }
       public Builder clear() {
         super.clear();
-        messageId_ = "";
+        messageId_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000001);
-        toUserId_ = "";
+        senderId_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000002);
-        header_ = "";
+        recipientId_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000004);
-        body_ = "";
+        header_ = "";
         bitField0_ = (bitField0_ & ~0x00000008);
+        body_ = "";
+        bitField0_ = (bitField0_ & ~0x00000010);
+        type_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000020);
+        groupId_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000040);
         return this;
       }
 
@@ -628,15 +720,27 @@ public final class MessageEntity {
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.toUserId_ = toUserId_;
+        result.senderId_ = senderId_;
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
-        result.header_ = header_;
+        result.recipientId_ = recipientId_;
         if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000008;
         }
+        result.header_ = header_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
         result.body_ = body_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        result.type_ = type_;
+        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        result.groupId_ = groupId_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -680,24 +784,29 @@ public final class MessageEntity {
       public Builder mergeFrom(com.athena.protobuf.MessageEntity.Message other) {
         if (other == com.athena.protobuf.MessageEntity.Message.getDefaultInstance()) return this;
         if (other.hasMessageId()) {
-          bitField0_ |= 0x00000001;
-          messageId_ = other.messageId_;
-          onChanged();
+          setMessageId(other.getMessageId());
         }
-        if (other.hasToUserId()) {
-          bitField0_ |= 0x00000002;
-          toUserId_ = other.toUserId_;
-          onChanged();
+        if (other.hasSenderId()) {
+          setSenderId(other.getSenderId());
+        }
+        if (other.hasRecipientId()) {
+          setRecipientId(other.getRecipientId());
         }
         if (other.hasHeader()) {
-          bitField0_ |= 0x00000004;
+          bitField0_ |= 0x00000008;
           header_ = other.header_;
           onChanged();
         }
         if (other.hasBody()) {
-          bitField0_ |= 0x00000008;
+          bitField0_ |= 0x00000010;
           body_ = other.body_;
           onChanged();
+        }
+        if (other.hasType()) {
+          setType(other.getType());
+        }
+        if (other.hasGroupId()) {
+          setGroupId(other.getGroupId());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -708,10 +817,16 @@ public final class MessageEntity {
         if (!hasMessageId()) {
           return false;
         }
-        if (!hasToUserId()) {
+        if (!hasSenderId()) {
+          return false;
+        }
+        if (!hasRecipientId()) {
           return false;
         }
         if (!hasBody()) {
+          return false;
+        }
+        if (!hasType()) {
           return false;
         }
         return true;
@@ -736,167 +851,111 @@ public final class MessageEntity {
       }
       private int bitField0_;
 
-      private java.lang.Object messageId_ = "";
+      private long messageId_ ;
       /**
-       * <code>required string messageId = 1;</code>
+       * <code>required int64 messageId = 1;</code>
        */
       public boolean hasMessageId() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required string messageId = 1;</code>
+       * <code>required int64 messageId = 1;</code>
        */
-      public java.lang.String getMessageId() {
-        java.lang.Object ref = messageId_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            messageId_ = s;
-          }
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
+      public long getMessageId() {
+        return messageId_;
       }
       /**
-       * <code>required string messageId = 1;</code>
+       * <code>required int64 messageId = 1;</code>
        */
-      public com.google.protobuf.ByteString
-          getMessageIdBytes() {
-        java.lang.Object ref = messageId_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          messageId_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>required string messageId = 1;</code>
-       */
-      public Builder setMessageId(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000001;
+      public Builder setMessageId(long value) {
+        bitField0_ |= 0x00000001;
         messageId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required string messageId = 1;</code>
+       * <code>required int64 messageId = 1;</code>
        */
       public Builder clearMessageId() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        messageId_ = getDefaultInstance().getMessageId();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required string messageId = 1;</code>
-       */
-      public Builder setMessageIdBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000001;
-        messageId_ = value;
+        messageId_ = 0L;
         onChanged();
         return this;
       }
 
-      private java.lang.Object toUserId_ = "";
+      private long senderId_ ;
       /**
-       * <code>required string toUserId = 2;</code>
+       * <code>required int64 senderId = 2;</code>
        */
-      public boolean hasToUserId() {
+      public boolean hasSenderId() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>required string toUserId = 2;</code>
+       * <code>required int64 senderId = 2;</code>
        */
-      public java.lang.String getToUserId() {
-        java.lang.Object ref = toUserId_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            toUserId_ = s;
-          }
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
+      public long getSenderId() {
+        return senderId_;
       }
       /**
-       * <code>required string toUserId = 2;</code>
+       * <code>required int64 senderId = 2;</code>
        */
-      public com.google.protobuf.ByteString
-          getToUserIdBytes() {
-        java.lang.Object ref = toUserId_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          toUserId_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>required string toUserId = 2;</code>
-       */
-      public Builder setToUserId(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000002;
-        toUserId_ = value;
+      public Builder setSenderId(long value) {
+        bitField0_ |= 0x00000002;
+        senderId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required string toUserId = 2;</code>
+       * <code>required int64 senderId = 2;</code>
        */
-      public Builder clearToUserId() {
+      public Builder clearSenderId() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        toUserId_ = getDefaultInstance().getToUserId();
+        senderId_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private long recipientId_ ;
+      /**
+       * <code>required int64 recipientId = 3;</code>
+       */
+      public boolean hasRecipientId() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required int64 recipientId = 3;</code>
+       */
+      public long getRecipientId() {
+        return recipientId_;
+      }
+      /**
+       * <code>required int64 recipientId = 3;</code>
+       */
+      public Builder setRecipientId(long value) {
+        bitField0_ |= 0x00000004;
+        recipientId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required string toUserId = 2;</code>
+       * <code>required int64 recipientId = 3;</code>
        */
-      public Builder setToUserIdBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000002;
-        toUserId_ = value;
+      public Builder clearRecipientId() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        recipientId_ = 0L;
         onChanged();
         return this;
       }
 
       private java.lang.Object header_ = "";
       /**
-       * <code>optional string header = 3;</code>
+       * <code>optional string header = 4;</code>
        */
       public boolean hasHeader() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+        return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
-       * <code>optional string header = 3;</code>
+       * <code>optional string header = 4;</code>
        */
       public java.lang.String getHeader() {
         java.lang.Object ref = header_;
@@ -913,7 +972,7 @@ public final class MessageEntity {
         }
       }
       /**
-       * <code>optional string header = 3;</code>
+       * <code>optional string header = 4;</code>
        */
       public com.google.protobuf.ByteString
           getHeaderBytes() {
@@ -929,36 +988,36 @@ public final class MessageEntity {
         }
       }
       /**
-       * <code>optional string header = 3;</code>
+       * <code>optional string header = 4;</code>
        */
       public Builder setHeader(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000004;
+  bitField0_ |= 0x00000008;
         header_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string header = 3;</code>
+       * <code>optional string header = 4;</code>
        */
       public Builder clearHeader() {
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000008);
         header_ = getDefaultInstance().getHeader();
         onChanged();
         return this;
       }
       /**
-       * <code>optional string header = 3;</code>
+       * <code>optional string header = 4;</code>
        */
       public Builder setHeaderBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000004;
+  bitField0_ |= 0x00000008;
         header_ = value;
         onChanged();
         return this;
@@ -966,13 +1025,13 @@ public final class MessageEntity {
 
       private java.lang.Object body_ = "";
       /**
-       * <code>required string body = 4;</code>
+       * <code>required string body = 5;</code>
        */
       public boolean hasBody() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
+        return ((bitField0_ & 0x00000010) == 0x00000010);
       }
       /**
-       * <code>required string body = 4;</code>
+       * <code>required string body = 5;</code>
        */
       public java.lang.String getBody() {
         java.lang.Object ref = body_;
@@ -989,7 +1048,7 @@ public final class MessageEntity {
         }
       }
       /**
-       * <code>required string body = 4;</code>
+       * <code>required string body = 5;</code>
        */
       public com.google.protobuf.ByteString
           getBodyBytes() {
@@ -1005,37 +1064,101 @@ public final class MessageEntity {
         }
       }
       /**
-       * <code>required string body = 4;</code>
+       * <code>required string body = 5;</code>
        */
       public Builder setBody(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000008;
+  bitField0_ |= 0x00000010;
         body_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required string body = 4;</code>
+       * <code>required string body = 5;</code>
        */
       public Builder clearBody() {
-        bitField0_ = (bitField0_ & ~0x00000008);
+        bitField0_ = (bitField0_ & ~0x00000010);
         body_ = getDefaultInstance().getBody();
         onChanged();
         return this;
       }
       /**
-       * <code>required string body = 4;</code>
+       * <code>required string body = 5;</code>
        */
       public Builder setBodyBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000008;
+  bitField0_ |= 0x00000010;
         body_ = value;
+        onChanged();
+        return this;
+      }
+
+      private int type_ ;
+      /**
+       * <code>required int32 type = 6;</code>
+       */
+      public boolean hasType() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>required int32 type = 6;</code>
+       */
+      public int getType() {
+        return type_;
+      }
+      /**
+       * <code>required int32 type = 6;</code>
+       */
+      public Builder setType(int value) {
+        bitField0_ |= 0x00000020;
+        type_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 type = 6;</code>
+       */
+      public Builder clearType() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        type_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private long groupId_ ;
+      /**
+       * <code>optional int64 groupId = 7;</code>
+       */
+      public boolean hasGroupId() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
+      }
+      /**
+       * <code>optional int64 groupId = 7;</code>
+       */
+      public long getGroupId() {
+        return groupId_;
+      }
+      /**
+       * <code>optional int64 groupId = 7;</code>
+       */
+      public Builder setGroupId(long value) {
+        bitField0_ |= 0x00000040;
+        groupId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int64 groupId = 7;</code>
+       */
+      public Builder clearGroupId() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        groupId_ = 0L;
         onChanged();
         return this;
       }
@@ -1103,10 +1226,12 @@ public final class MessageEntity {
   static {
     java.lang.String[] descriptorData = {
       "\n/src/main/java/com/athena/protobuf/mess" +
-      "age.proto\022\023com.athena.protobuf\"L\n\007Messag" +
-      "e\022\021\n\tmessageId\030\001 \002(\t\022\020\n\010toUserId\030\002 \002(\t\022\016" +
-      "\n\006header\030\003 \001(\t\022\014\n\004body\030\004 \002(\tB&\n\023com.athe" +
-      "na.protobufB\rMessageEntityH\001"
+      "age.proto\022\023com.athena.protobuf\"\200\001\n\007Messa" +
+      "ge\022\021\n\tmessageId\030\001 \002(\003\022\020\n\010senderId\030\002 \002(\003\022" +
+      "\023\n\013recipientId\030\003 \002(\003\022\016\n\006header\030\004 \001(\t\022\014\n\004" +
+      "body\030\005 \002(\t\022\014\n\004type\030\006 \002(\005\022\017\n\007groupId\030\007 \001(" +
+      "\003B&\n\023com.athena.protobufB\rMessageEntityH" +
+      "\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -1125,7 +1250,7 @@ public final class MessageEntity {
     internal_static_com_athena_protobuf_Message_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_athena_protobuf_Message_descriptor,
-        new java.lang.String[] { "MessageId", "ToUserId", "Header", "Body", });
+        new java.lang.String[] { "MessageId", "SenderId", "RecipientId", "Header", "Body", "Type", "GroupId", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

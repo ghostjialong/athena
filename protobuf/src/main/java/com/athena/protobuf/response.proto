@@ -1,0 +1,13 @@
+syntax = "proto2";
+
+package com.athena.protobuf;
+
+option java_package = "com.athena.protobuf";
+option java_outer_classname = "ResponseEntity";
+option optimize_for = SPEED;
+
+message Response {
+    required string code = 1;
+
+    optional string message = 2;
+}

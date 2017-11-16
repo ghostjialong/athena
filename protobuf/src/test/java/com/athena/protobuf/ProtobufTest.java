@@ -7,8 +7,8 @@ public class ProtobufTest {
 
     public static void main(String[] args) throws Exception{
         MessageEntity.Message message = MessageEntity.Message.newBuilder()
-                .setMessageId("105001676")
-                .setToUserId("105002955")
+                .setMessageId(105001676)
+                .setRecipientId(105002955)
                 .setBody("Hello, I wanna chat with you.....").build();
         //将对象转译成字节数组,序列化
         byte[] messageByteArray = message.toByteArray();
