@@ -30,17 +30,22 @@ public class MessageDeliver {
 
     private static Map<Long, ClientIdentity> clientMap = new HashMap();
 
+    private final String EXCHANGE_UBICAST = "direct";
+    private final String EXCHANGE_BROADCAST = "fanout";
+    private final String EXCHANGE_PREFIX = "MESSAGE_BRLOKER_EXCHANGE_{0}";
 
-    public void subscribe(long clientId, ClientIdentity clientIdentity) {
-        try {
-            clientMap.put(clientId, clientIdentity);
-            messageBroker.subscribe(MessageFormat.format(TOPIC_PREFIX, String.valueOf(clientId)));
-        } catch (Exception e ) {
-            // e.getStackTrace()
-            e.printStackTrace();
-            logger.info("exception " + e.toString());
-        }
+    // 订阅单播私有消息
+    public void subscribe(ClientIdentity clientIdentity) {
+        clientMap.put(clientIdentity.getClientId(), clientIdentity);
+        messageBroker.subscribe(MessageFormat.format(TOPIC_PREFIX,
+                String.valueOf(clientIdentity.getClientId())));
+    }
 
+    // 订阅组播群组消息
+    public void subscribe(ClientIdentity clientIdentity, int groupId) {
+        clientMap.put(clientIdentity.getClientId(), clientIdentity);
+        messageBroker.subscribe(MessageFormat.format(TOPIC_PREFIX,
+                String.valueOf(clientIdentity.getClientId())), groupId);
     }
 
     public void pubMessage(MessageEntity.Message message) {
@@ -76,7 +81,7 @@ public class MessageDeliver {
             }
 
         }
-
+        logger.info("data got here!");
         //3. 收到ack 确认消息， 执行消息确认删除
 
     }

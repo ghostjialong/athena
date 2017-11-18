@@ -14,15 +14,15 @@ public interface MessageQueue {
 
     void pubMessage(String topic, byte[] body) throws IOException;
 
-    void preExecute(String queueName, String routingKey ) throws Exception;
-
     byte[] syncMessageGetSync(String queue) throws IOException;
 
-    void consumeMsgAsync(String queue) throws IOException;
+    void register(String queue) throws IOException;
 
     void deleteQueue(String queueName) throws Exception;
 
-    void subscribe(String topic) throws Exception;
+    public void subscribe(String topic) throws IOException;
+
+    public void subscribe(String topic, int groupId) throws IOException;
 
     void setMessageBroker(AbstractBroker messageBroker);
 

@@ -39,7 +39,6 @@ public class MessageBroker implements AbstractBroker {
 
     public void connect() throws Exception {
         brokerConnector.connect();
-        brokerConnector.preExecute("wangjialong", "hiclub_message");
     }
 
     public void start() {
@@ -52,8 +51,22 @@ public class MessageBroker implements AbstractBroker {
 
     }
 
-    public void subscribe(String topic) throws Exception {
-        brokerConnector.subscribe(topic);
+    public void subscribe(String topic) {
+        try {
+            brokerConnector.subscribe(topic);
+        } catch (IOException e) {
+            brokerConnector.reconnect();
+        }
+    }
+
+    public void subscribe(String topic, int groupId) {
+        try {
+            brokerConnector.subscribe(topic, groupId);
+        } catch (IOException e) {
+            // 与消息队列连接异常， 触发重连机制
+            brokerConnector.reconnect();
+        }
+
     }
 
     public void unSubscribe(String topic, String clientId) throws Exception {
@@ -89,7 +102,7 @@ public class MessageBroker implements AbstractBroker {
             });
             th.start();
         } catch (InvalidProtocolBufferException e) {
-
+            e.printStackTrace();
         }
 
     }

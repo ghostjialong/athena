@@ -18,10 +18,12 @@ message Request{
 
     required PacketType requestType = 1;
 
-    required int64 clientId = 2;
+    optional int32 groupId = 2;
 
-    required string authToken = 3;
+    required int64 clientId = 3;
 
-    optional Message message = 4;
+    required string authToken = 4;
+
+    optional Message message = 5;
 
 }

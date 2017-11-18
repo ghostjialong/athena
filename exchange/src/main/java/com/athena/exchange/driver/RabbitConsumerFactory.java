@@ -22,7 +22,7 @@ public class RabbitConsumerFactory {
                     try {
                         messageBroker.getMessageWithOutAck(body, envelope.getDeliveryTag());
                     } catch(Exception e) {
-
+                        e.printStackTrace();
                     }
                 }
             };

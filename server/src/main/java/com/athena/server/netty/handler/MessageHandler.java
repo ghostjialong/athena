@@ -37,7 +37,16 @@ public class MessageHandler extends ChannelInboundHandlerAdapter {
                 // 订阅消息， 生成订阅者client, 将通信信道包含其中
                 ClientIdentity clientIdentity = new ClientIdentity(request.getClientId(), ctx.channel());
                 logger.info("subscribe request got, data: " + request.toString());
-                messageDeliver.subscribe(request.getClientId(), clientIdentity);
+                // 消息类型分为订阅私人消息和群组消息
+                int groupId = request.getGroupId();
+                if (request.hasGroupId() && groupId != 0) {
+                    // 订阅的是群消息
+                    messageDeliver.subscribe(clientIdentity, groupId);
+                } else {
+                    // 订阅私有消息
+                    messageDeliver.subscribe(clientIdentity);
+                }
+
                 ByteBuf byteBuf = Unpooled.buffer(1024);
                 ResponseEntity.Response response = ResponseEntity.Response.newBuilder()
                         .setCode("1000")

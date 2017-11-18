@@ -8,11 +8,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeoutException;
 import java.util.logging.Logger;
-import com.google.common.collect.MapMaker;
-import com.google.common.base.Function;
+
 import org.springframework.stereotype.Component;
 
 
@@ -68,19 +66,23 @@ public class RabbitMQConnector implements MessageQueue{
         connectionFactory.setPassword(password);
         connection = connectionFactory.newConnection();
         channel = connectionFactory.newConnection().createChannel();
-    }
-
-    public void preExecute(String queueName, String routingKey ) throws Exception {
         channel.exchangeDeclare(exchange, exchangeType, true, false, null);
-        channel.queueDeclare(queueName, false, false, false, null);
-        bindQueue(channel, queueName, exchange, routingKey);
     }
 
-    public void subscribe(String topic) throws Exception {
+    // 订阅私有消息
+    public void subscribe(String topic) throws IOException {
         // 需要记录下订阅的topic, 方便与消息broker 重连后的订阅关系恢复
         // to be continued.......
-        preExecute(topic, "");
-        consumeMsgAsync(topic);
+        channel.queueDeclare(topic, false, false, false, null);
+        channel.queueBind(topic, exchange, topic);
+        register(topic);
+    }
+
+    public void subscribe(String topic, int groupId) throws IOException {
+        // 绑定消息队列到群组对应的Routing Key 上
+        channel.queueDeclare(topic, false, false, false, null);
+        channel.queueBind(topic, exchange, String.valueOf(groupId));
+        register(topic);
     }
 
     public void deleteQueue(String queueName) throws Exception {
@@ -91,21 +93,22 @@ public class RabbitMQConnector implements MessageQueue{
         publishMessage(channel, topic, exchange, body);
     }
 
-    public void bindQueue(Channel ch, String queueName, String exchange, String routingKey) throws Exception {
-        ch.queueBind(queueName, exchange, routingKey);
-    }
-
     public void publishMessage(Channel ch, String routingKey, String exchange,
                               byte[] body ) throws IOException {
         ch.basicPublish(exchange, routingKey, false, null, body);
     }
 
-    public void consumeMsgAsync(String queue) throws IOException {
+    public void register(String queue) throws IOException {
         channel.basicConsume(queue, RabbitConsumerFactory.getConsumer(channel, messageBroker));
     }
 
     public byte[] syncMessageGetSync(String queue) throws IOException {
+        channel.queueDeclare(queue, false, false, false, null);
         GetResponse resp = channel.basicGet(queue, true);
+        if (resp == null) {
+            byte[] data = new byte[1];
+            return data;
+        }
         return resp.getBody();
     }
 
