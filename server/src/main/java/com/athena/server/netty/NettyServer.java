@@ -3,6 +3,7 @@ package com.athena.server.netty;
 import com.athena.exchange.MessageDeliver;
 import com.athena.protobuf.MessageEntity;
 import com.athena.protobuf.RequestEntity;
+import com.athena.server.netty.handler.HandleShakeHandler;
 import com.athena.server.netty.handler.MessageHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
@@ -39,6 +40,9 @@ public class NettyServer {
     @Autowired
     public MessageHandler messageHandler;
 
+    @Autowired
+    public HandleShakeHandler handleShakeHandler;
+
     public void start() {
         EventLoopGroup workGroup = new NioEventLoopGroup();
         EventLoopGroup bossGroup = new NioEventLoopGroup();
@@ -66,6 +70,7 @@ public class NettyServer {
                                             logger.info("channel closed after idle");
                                         }
                                     })
+                                    .addLast(handleShakeHandler)
                                     .addLast(messageHandler);
                         }
                     }).childOption(ChannelOption.SO_BACKLOG, 128)

@@ -70,19 +70,12 @@ public class RabbitMQConnector implements MessageQueue{
     }
 
     // 订阅私有消息
-    public void subscribe(String topic) throws IOException {
+    public void subscribe(String queue, String topic) throws IOException {
         // 需要记录下订阅的topic, 方便与消息broker 重连后的订阅关系恢复
         // to be continued.......
-        channel.queueDeclare(topic, false, false, false, null);
-        channel.queueBind(topic, exchange, topic);
-        register(topic);
-    }
-
-    public void subscribe(String topic, int groupId) throws IOException {
-        // 绑定消息队列到群组对应的Routing Key 上
-        channel.queueDeclare(topic, false, false, false, null);
-        channel.queueBind(topic, exchange, String.valueOf(groupId));
-        register(topic);
+        channel.queueDeclare(queue, false, false, false, null);
+        channel.queueBind(queue, exchange, topic);
+        register(queue);
     }
 
     public void deleteQueue(String queueName) throws Exception {

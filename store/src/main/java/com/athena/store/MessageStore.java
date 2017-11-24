@@ -9,5 +9,5 @@ public interface MessageStore {
 
     public void sinkData(MessageEntity.Message message) ;
 
-    public void deliverData(MessageEntity.Message message);
+    // public void deliverData(MessageEntity.Message message);
 }

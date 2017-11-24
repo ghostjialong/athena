@@ -1,6 +1,7 @@
 package com.athena.server.netty.handler;
 
 import com.athena.exchange.MessageDeliver;
+import com.athena.protobuf.MessageEntity;
 import com.athena.protobuf.RequestEntity;
 import com.athena.client.ClientIdentity;
 import com.athena.protobuf.ResponseEntity;
@@ -58,7 +59,11 @@ public class MessageHandler extends ChannelInboundHandlerAdapter {
             case PUB:
                 // 客户端发布消息
                 logger.info("client send to message");
-                messageDeliver.pubMessage(request.getMessage());
+                if (request.getMessage().getType().equals(MessageEntity.messageType.TO_GROUP)) {
+                    messageDeliver.pubMessage(request.getMessage(), request.getMessage().getGroupId());
+                } else {
+                    messageDeliver.pubMessage(request.getMessage());
+                }
                 break;
             case ACK:
                 logger.info("message got by server: " + request.toString());

@@ -101,6 +101,7 @@ public class NettyClient {
                 RequestEntity.Request request = RequestEntity.Request.newBuilder()
                         .setRequestType(RequestEntity.PacketType.SUBSCRIBE)
                         .setAuthToken("MhxzKhl")
+                        .setGroupId(566)
                         .setClientId(105001676).build();
                         //.setMessage(message).build();
 
@@ -114,9 +115,10 @@ public class NettyClient {
                                 logger.info("I send a message....");
                                 MessageEntity.Message message = MessageEntity.Message.newBuilder()
                                         .setMessageId(123456)
-                                        .setRecipientId(105001676)
+                                        //.setRecipientId(105001676)
                                         .setSenderId(105001676)
-                                        .setType(1)
+                                        .setType(MessageEntity.messageType.TO_GROUP)
+                                        .setGroupId(566)
                                         .setBody("Hello, I wanna fuck with you.....").build();
                                 RequestEntity.Request msg = RequestEntity.Request.newBuilder()
                                         .setRequestType(RequestEntity.PacketType.PUB)

@@ -7,7 +7,7 @@ public interface AbstractBroker {
 
     public void connect() throws Exception;
 
-    public void subscribe(String topic) throws Exception;
+    public void subscribe(String queue, String topic) throws Exception;
 
     public void unSubscribe(String topic, String clientId) throws Exception;
 

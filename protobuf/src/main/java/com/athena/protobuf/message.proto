@@ -6,21 +6,26 @@ option java_package = "com.athena.protobuf";
 option java_outer_classname = "MessageEntity";
 option optimize_for = SPEED;
 
+enum messageType {
+    TO_SINGLE = 1;
+    TO_GROUP  = 2;
+}
+
 message Message{
 
     required int64 messageId = 1;
 
     required int64 senderId = 2;
 
-    required int64 recipientId  = 3;
+    optional int64 recipientId  = 3;
 
     optional string header = 4;
 
     required string body = 5;
 
-    required int32 type = 6;
+    required messageType type = 6;
 
-    optional int64 groupId = 7;
+    optional int32 groupId = 7;
 
 
 }

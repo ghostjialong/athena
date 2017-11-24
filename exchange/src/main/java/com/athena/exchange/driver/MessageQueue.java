@@ -20,9 +20,7 @@ public interface MessageQueue {
 
     void deleteQueue(String queueName) throws Exception;
 
-    public void subscribe(String topic) throws IOException;
-
-    public void subscribe(String topic, int groupId) throws IOException;
+    public void subscribe(String queue, String topic) throws IOException;
 
     void setMessageBroker(AbstractBroker messageBroker);
 

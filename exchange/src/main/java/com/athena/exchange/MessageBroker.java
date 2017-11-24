@@ -1,14 +1,9 @@
 package com.athena.exchange;
 
 import com.athena.exchange.driver.MessageQueue;
-import com.athena.exchange.driver.RabbitMQConnector;
 import com.athena.protobuf.MessageEntity;
 import com.athena.store.MessageStore;
 import com.google.protobuf.InvalidProtocolBufferException;
-import com.rabbitmq.client.AMQP;
-import com.rabbitmq.client.Consumer;
-import com.rabbitmq.client.DefaultConsumer;
-import com.rabbitmq.client.Envelope;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -51,23 +46,14 @@ public class MessageBroker implements AbstractBroker {
 
     }
 
-    public void subscribe(String topic) {
+    public void subscribe(String queue, String topic) {
         try {
-            brokerConnector.subscribe(topic);
+            brokerConnector.subscribe(queue, topic);
         } catch (IOException e) {
             brokerConnector.reconnect();
         }
     }
 
-    public void subscribe(String topic, int groupId) {
-        try {
-            brokerConnector.subscribe(topic, groupId);
-        } catch (IOException e) {
-            // 与消息队列连接异常， 触发重连机制
-            brokerConnector.reconnect();
-        }
-
-    }
 
     public void unSubscribe(String topic, String clientId) throws Exception {
         // 删除broker 订阅队列
@@ -78,10 +64,12 @@ public class MessageBroker implements AbstractBroker {
 
     public void pubMessage(String topic, MessageEntity.Message message) {
         byte[] byteMessage = message.toByteArray();
+        System.out.println("fuck test here....");
         try {
             brokerConnector.pubMessage(topic, byteMessage);
         } catch (IOException e) {
             // 连接重连
+            e.printStackTrace();
             brokerConnector.reconnect();
         }
 
