@@ -74,7 +74,14 @@ public class NettyClient {
                                                 logger.info("client got the message " + message.toString());
                                             } else {
                                                 MessageEntity.Message message = (MessageEntity.Message) msg;
-                                                logger.info("client got the message " + message.toString());
+                                                logger.info("client got the message here..... " + message.toString());
+                                                RequestEntity.Request request = RequestEntity.Request.newBuilder()
+                                                        .setRequestType(RequestEntity.PacketType.ACK)
+                                                        .setAuthToken("MhxzKhl")
+                                                        .setMessageId(123456)
+                                                        .setClientId(105001676).build();
+                                                //.setMessage(message).build();
+                                                ctx.channel().writeAndFlush(request);
                                             }
 
                                             Channel channel = ctx.channel();

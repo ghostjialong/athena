@@ -15,7 +15,7 @@ public class Message {
 
     public int isAck;
 
-    public Long AckTime;
+    public Long ackTime;
 
     public int type = 0;
 
@@ -32,6 +32,8 @@ public class Message {
         this.messageId = messageId;
         this.type = type;
         this.groupId = groupId;
+        this.createTime = System.currentTimeMillis() / 1000;
+        this.ackTime = Long.valueOf(-1);
     }
 
     public static class Builder {

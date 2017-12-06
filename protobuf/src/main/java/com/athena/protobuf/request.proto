@@ -22,8 +22,10 @@ message Request{
 
     required string authToken = 4;
 
-    optional int32 groupId = 5;
+    optional int64 messageId = 5;
 
-    optional Message message = 6;
+    optional int32 groupId = 6;
+
+    optional Message message = 7;
 
 }

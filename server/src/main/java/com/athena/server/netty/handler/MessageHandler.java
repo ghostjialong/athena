@@ -59,6 +59,9 @@ public class MessageHandler extends ChannelInboundHandlerAdapter {
             case PUB:
                 // 客户端发布消息
                 logger.info("client send to message");
+                // 生成messageId
+
+                // 广播消息至其他az组
                 if (request.getMessage().getType().equals(MessageEntity.messageType.TO_GROUP)) {
                     messageDeliver.pubMessage(request.getMessage(), request.getMessage().getGroupId());
                 } else {
@@ -66,7 +69,9 @@ public class MessageHandler extends ChannelInboundHandlerAdapter {
                 }
                 break;
             case ACK:
-                logger.info("message got by server: " + request.toString());
+                logger.info("Ack message got by server: " + request.toString());
+                Long messageId = request.getMessageId();
+                messageDeliver.ackMessage(messageId);
             default:
                 break;
         }

@@ -159,24 +159,33 @@ public final class RequestEntity {
         getAuthTokenBytes();
 
     /**
-     * <code>optional int32 groupId = 5;</code>
+     * <code>optional int64 messageId = 5;</code>
+     */
+    boolean hasMessageId();
+    /**
+     * <code>optional int64 messageId = 5;</code>
+     */
+    long getMessageId();
+
+    /**
+     * <code>optional int32 groupId = 6;</code>
      */
     boolean hasGroupId();
     /**
-     * <code>optional int32 groupId = 5;</code>
+     * <code>optional int32 groupId = 6;</code>
      */
     int getGroupId();
 
     /**
-     * <code>optional .com.athena.protobuf.Message message = 6;</code>
+     * <code>optional .com.athena.protobuf.Message message = 7;</code>
      */
     boolean hasMessage();
     /**
-     * <code>optional .com.athena.protobuf.Message message = 6;</code>
+     * <code>optional .com.athena.protobuf.Message message = 7;</code>
      */
     com.athena.protobuf.MessageEntity.Message getMessage();
     /**
-     * <code>optional .com.athena.protobuf.Message message = 6;</code>
+     * <code>optional .com.athena.protobuf.Message message = 7;</code>
      */
     com.athena.protobuf.MessageEntity.MessageOrBuilder getMessageOrBuilder();
   }
@@ -196,6 +205,7 @@ public final class RequestEntity {
       requestType_ = 1;
       clientId_ = 0L;
       authToken_ = "";
+      messageId_ = 0L;
       groupId_ = 0;
     }
 
@@ -254,12 +264,17 @@ public final class RequestEntity {
             }
             case 40: {
               bitField0_ |= 0x00000008;
+              messageId_ = input.readInt64();
+              break;
+            }
+            case 48: {
+              bitField0_ |= 0x00000010;
               groupId_ = input.readInt32();
               break;
             }
-            case 50: {
+            case 58: {
               com.athena.protobuf.MessageEntity.Message.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000010) == 0x00000010)) {
+              if (((bitField0_ & 0x00000020) == 0x00000020)) {
                 subBuilder = message_.toBuilder();
               }
               message_ = input.readMessage(com.athena.protobuf.MessageEntity.Message.PARSER, extensionRegistry);
@@ -267,7 +282,7 @@ public final class RequestEntity {
                 subBuilder.mergeFrom(message_);
                 message_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00000010;
+              bitField0_ |= 0x00000020;
               break;
             }
           }
@@ -368,37 +383,52 @@ public final class RequestEntity {
       }
     }
 
-    public static final int GROUPID_FIELD_NUMBER = 5;
-    private int groupId_;
+    public static final int MESSAGEID_FIELD_NUMBER = 5;
+    private long messageId_;
     /**
-     * <code>optional int32 groupId = 5;</code>
+     * <code>optional int64 messageId = 5;</code>
      */
-    public boolean hasGroupId() {
+    public boolean hasMessageId() {
       return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>optional int32 groupId = 5;</code>
+     * <code>optional int64 messageId = 5;</code>
+     */
+    public long getMessageId() {
+      return messageId_;
+    }
+
+    public static final int GROUPID_FIELD_NUMBER = 6;
+    private int groupId_;
+    /**
+     * <code>optional int32 groupId = 6;</code>
+     */
+    public boolean hasGroupId() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional int32 groupId = 6;</code>
      */
     public int getGroupId() {
       return groupId_;
     }
 
-    public static final int MESSAGE_FIELD_NUMBER = 6;
+    public static final int MESSAGE_FIELD_NUMBER = 7;
     private com.athena.protobuf.MessageEntity.Message message_;
     /**
-     * <code>optional .com.athena.protobuf.Message message = 6;</code>
+     * <code>optional .com.athena.protobuf.Message message = 7;</code>
      */
     public boolean hasMessage() {
-      return ((bitField0_ & 0x00000010) == 0x00000010);
+      return ((bitField0_ & 0x00000020) == 0x00000020);
     }
     /**
-     * <code>optional .com.athena.protobuf.Message message = 6;</code>
+     * <code>optional .com.athena.protobuf.Message message = 7;</code>
      */
     public com.athena.protobuf.MessageEntity.Message getMessage() {
       return message_ == null ? com.athena.protobuf.MessageEntity.Message.getDefaultInstance() : message_;
     }
     /**
-     * <code>optional .com.athena.protobuf.Message message = 6;</code>
+     * <code>optional .com.athena.protobuf.Message message = 7;</code>
      */
     public com.athena.protobuf.MessageEntity.MessageOrBuilder getMessageOrBuilder() {
       return message_ == null ? com.athena.protobuf.MessageEntity.Message.getDefaultInstance() : message_;
@@ -444,10 +474,13 @@ public final class RequestEntity {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 4, authToken_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeInt32(5, groupId_);
+        output.writeInt64(5, messageId_);
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        output.writeMessage(6, getMessage());
+        output.writeInt32(6, groupId_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeMessage(7, getMessage());
       }
       unknownFields.writeTo(output);
     }
@@ -470,11 +503,15 @@ public final class RequestEntity {
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(5, groupId_);
+          .computeInt64Size(5, messageId_);
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(6, getMessage());
+          .computeInt32Size(6, groupId_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(7, getMessage());
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -505,6 +542,11 @@ public final class RequestEntity {
       if (hasAuthToken()) {
         result = result && getAuthToken()
             .equals(other.getAuthToken());
+      }
+      result = result && (hasMessageId() == other.hasMessageId());
+      if (hasMessageId()) {
+        result = result && (getMessageId()
+            == other.getMessageId());
       }
       result = result && (hasGroupId() == other.hasGroupId());
       if (hasGroupId()) {
@@ -539,6 +581,11 @@ public final class RequestEntity {
       if (hasAuthToken()) {
         hash = (37 * hash) + AUTHTOKEN_FIELD_NUMBER;
         hash = (53 * hash) + getAuthToken().hashCode();
+      }
+      if (hasMessageId()) {
+        hash = (37 * hash) + MESSAGEID_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+            getMessageId());
       }
       if (hasGroupId()) {
         hash = (37 * hash) + GROUPID_FIELD_NUMBER;
@@ -684,14 +731,16 @@ public final class RequestEntity {
         bitField0_ = (bitField0_ & ~0x00000002);
         authToken_ = "";
         bitField0_ = (bitField0_ & ~0x00000004);
-        groupId_ = 0;
+        messageId_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000008);
+        groupId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000010);
         if (messageBuilder_ == null) {
           message_ = null;
         } else {
           messageBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000010);
+        bitField0_ = (bitField0_ & ~0x00000020);
         return this;
       }
 
@@ -731,9 +780,13 @@ public final class RequestEntity {
         if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000008;
         }
-        result.groupId_ = groupId_;
+        result.messageId_ = messageId_;
         if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
           to_bitField0_ |= 0x00000010;
+        }
+        result.groupId_ = groupId_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000020;
         }
         if (messageBuilder_ == null) {
           result.message_ = message_;
@@ -792,6 +845,9 @@ public final class RequestEntity {
           bitField0_ |= 0x00000004;
           authToken_ = other.authToken_;
           onChanged();
+        }
+        if (other.hasMessageId()) {
+          setMessageId(other.getMessageId());
         }
         if (other.hasGroupId()) {
           setGroupId(other.getGroupId());
@@ -985,33 +1041,65 @@ public final class RequestEntity {
         return this;
       }
 
-      private int groupId_ ;
+      private long messageId_ ;
       /**
-       * <code>optional int32 groupId = 5;</code>
+       * <code>optional int64 messageId = 5;</code>
        */
-      public boolean hasGroupId() {
+      public boolean hasMessageId() {
         return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
-       * <code>optional int32 groupId = 5;</code>
+       * <code>optional int64 messageId = 5;</code>
+       */
+      public long getMessageId() {
+        return messageId_;
+      }
+      /**
+       * <code>optional int64 messageId = 5;</code>
+       */
+      public Builder setMessageId(long value) {
+        bitField0_ |= 0x00000008;
+        messageId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int64 messageId = 5;</code>
+       */
+      public Builder clearMessageId() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        messageId_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private int groupId_ ;
+      /**
+       * <code>optional int32 groupId = 6;</code>
+       */
+      public boolean hasGroupId() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional int32 groupId = 6;</code>
        */
       public int getGroupId() {
         return groupId_;
       }
       /**
-       * <code>optional int32 groupId = 5;</code>
+       * <code>optional int32 groupId = 6;</code>
        */
       public Builder setGroupId(int value) {
-        bitField0_ |= 0x00000008;
+        bitField0_ |= 0x00000010;
         groupId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional int32 groupId = 5;</code>
+       * <code>optional int32 groupId = 6;</code>
        */
       public Builder clearGroupId() {
-        bitField0_ = (bitField0_ & ~0x00000008);
+        bitField0_ = (bitField0_ & ~0x00000010);
         groupId_ = 0;
         onChanged();
         return this;
@@ -1021,13 +1109,13 @@ public final class RequestEntity {
       private com.google.protobuf.SingleFieldBuilderV3<
           com.athena.protobuf.MessageEntity.Message, com.athena.protobuf.MessageEntity.Message.Builder, com.athena.protobuf.MessageEntity.MessageOrBuilder> messageBuilder_;
       /**
-       * <code>optional .com.athena.protobuf.Message message = 6;</code>
+       * <code>optional .com.athena.protobuf.Message message = 7;</code>
        */
       public boolean hasMessage() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
+        return ((bitField0_ & 0x00000020) == 0x00000020);
       }
       /**
-       * <code>optional .com.athena.protobuf.Message message = 6;</code>
+       * <code>optional .com.athena.protobuf.Message message = 7;</code>
        */
       public com.athena.protobuf.MessageEntity.Message getMessage() {
         if (messageBuilder_ == null) {
@@ -1037,7 +1125,7 @@ public final class RequestEntity {
         }
       }
       /**
-       * <code>optional .com.athena.protobuf.Message message = 6;</code>
+       * <code>optional .com.athena.protobuf.Message message = 7;</code>
        */
       public Builder setMessage(com.athena.protobuf.MessageEntity.Message value) {
         if (messageBuilder_ == null) {
@@ -1049,11 +1137,11 @@ public final class RequestEntity {
         } else {
           messageBuilder_.setMessage(value);
         }
-        bitField0_ |= 0x00000010;
+        bitField0_ |= 0x00000020;
         return this;
       }
       /**
-       * <code>optional .com.athena.protobuf.Message message = 6;</code>
+       * <code>optional .com.athena.protobuf.Message message = 7;</code>
        */
       public Builder setMessage(
           com.athena.protobuf.MessageEntity.Message.Builder builderForValue) {
@@ -1063,15 +1151,15 @@ public final class RequestEntity {
         } else {
           messageBuilder_.setMessage(builderForValue.build());
         }
-        bitField0_ |= 0x00000010;
+        bitField0_ |= 0x00000020;
         return this;
       }
       /**
-       * <code>optional .com.athena.protobuf.Message message = 6;</code>
+       * <code>optional .com.athena.protobuf.Message message = 7;</code>
        */
       public Builder mergeMessage(com.athena.protobuf.MessageEntity.Message value) {
         if (messageBuilder_ == null) {
-          if (((bitField0_ & 0x00000010) == 0x00000010) &&
+          if (((bitField0_ & 0x00000020) == 0x00000020) &&
               message_ != null &&
               message_ != com.athena.protobuf.MessageEntity.Message.getDefaultInstance()) {
             message_ =
@@ -1083,11 +1171,11 @@ public final class RequestEntity {
         } else {
           messageBuilder_.mergeFrom(value);
         }
-        bitField0_ |= 0x00000010;
+        bitField0_ |= 0x00000020;
         return this;
       }
       /**
-       * <code>optional .com.athena.protobuf.Message message = 6;</code>
+       * <code>optional .com.athena.protobuf.Message message = 7;</code>
        */
       public Builder clearMessage() {
         if (messageBuilder_ == null) {
@@ -1096,19 +1184,19 @@ public final class RequestEntity {
         } else {
           messageBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000010);
+        bitField0_ = (bitField0_ & ~0x00000020);
         return this;
       }
       /**
-       * <code>optional .com.athena.protobuf.Message message = 6;</code>
+       * <code>optional .com.athena.protobuf.Message message = 7;</code>
        */
       public com.athena.protobuf.MessageEntity.Message.Builder getMessageBuilder() {
-        bitField0_ |= 0x00000010;
+        bitField0_ |= 0x00000020;
         onChanged();
         return getMessageFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .com.athena.protobuf.Message message = 6;</code>
+       * <code>optional .com.athena.protobuf.Message message = 7;</code>
        */
       public com.athena.protobuf.MessageEntity.MessageOrBuilder getMessageOrBuilder() {
         if (messageBuilder_ != null) {
@@ -1119,7 +1207,7 @@ public final class RequestEntity {
         }
       }
       /**
-       * <code>optional .com.athena.protobuf.Message message = 6;</code>
+       * <code>optional .com.athena.protobuf.Message message = 7;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           com.athena.protobuf.MessageEntity.Message, com.athena.protobuf.MessageEntity.Message.Builder, com.athena.protobuf.MessageEntity.MessageOrBuilder> 
@@ -1198,13 +1286,14 @@ public final class RequestEntity {
   static {
     java.lang.String[] descriptorData = {
       "\n\rrequest.proto\022\023com.athena.protobuf\032\rme" +
-      "ssage.proto\"\244\001\n\007Request\0224\n\013requestType\030\001" +
+      "ssage.proto\"\267\001\n\007Request\0224\n\013requestType\030\001" +
       " \002(\0162\037.com.athena.protobuf.PacketType\022\020\n" +
-      "\010clientId\030\003 \002(\003\022\021\n\tauthToken\030\004 \002(\t\022\017\n\007gr" +
-      "oupId\030\005 \001(\005\022-\n\007message\030\006 \001(\0132\034.com.athen" +
-      "a.protobuf.Message*<\n\nPacketType\022\r\n\tHAND" +
-      "SHAKE\020\001\022\r\n\tSUBSCRIBE\020\002\022\007\n\003ACK\020\003\022\007\n\003PUB\020\004" +
-      "B&\n\023com.athena.protobufB\rRequestEntityH\001"
+      "\010clientId\030\003 \002(\003\022\021\n\tauthToken\030\004 \002(\t\022\021\n\tme" +
+      "ssageId\030\005 \001(\003\022\017\n\007groupId\030\006 \001(\005\022-\n\007messag" +
+      "e\030\007 \001(\0132\034.com.athena.protobuf.Message*<\n" +
+      "\nPacketType\022\r\n\tHANDSHAKE\020\001\022\r\n\tSUBSCRIBE\020" +
+      "\002\022\007\n\003ACK\020\003\022\007\n\003PUB\020\004B&\n\023com.athena.protob" +
+      "ufB\rRequestEntityH\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -1224,7 +1313,7 @@ public final class RequestEntity {
     internal_static_com_athena_protobuf_Request_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_athena_protobuf_Request_descriptor,
-        new java.lang.String[] { "RequestType", "ClientId", "AuthToken", "GroupId", "Message", });
+        new java.lang.String[] { "RequestType", "ClientId", "AuthToken", "MessageId", "GroupId", "Message", });
     com.athena.protobuf.MessageEntity.getDescriptor();
   }
 

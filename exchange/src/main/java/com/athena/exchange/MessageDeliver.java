@@ -84,6 +84,7 @@ public class MessageDeliver {
     public void pubMessage(MessageEntity.Message message, int groupId) {
         String topic = MessageFormat.format(TOPIC_Group_PREFIX,
                 String.valueOf(groupId));
+        // 这里需要生成消息的messageId
         messageBroker.pubMessage(topic, message);
     }
 
@@ -129,5 +130,9 @@ public class MessageDeliver {
             }
 
         }
+    }
+
+    public void ackMessage(Long messageId) {
+        messageStore.ackMessage(messageId);
     }
 }

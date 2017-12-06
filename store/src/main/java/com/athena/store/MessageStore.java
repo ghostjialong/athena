@@ -7,7 +7,9 @@ import com.athena.protobuf.MessageEntity;
  */
 public interface MessageStore {
 
-    public void sinkData(MessageEntity.Message message) ;
+    void sinkData(MessageEntity.Message message) ;
 
     // public void deliverData(MessageEntity.Message message);
+
+    void ackMessage(Long messageId);
 }

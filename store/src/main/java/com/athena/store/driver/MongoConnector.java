@@ -3,6 +3,7 @@ package com.athena.store.driver;
 import com.mongodb.*;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.result.UpdateResult;
 import org.apache.commons.lang.StringUtils;
 import org.bson.BSON;
 import org.bson.Document;
@@ -66,6 +67,6 @@ public class MongoConnector {
 
     public void update(String collection, Bson filter, Bson document) {
         MongoCollection mongoCollection = mongoDatabase.getCollection(collection);
-        mongoCollection.updateOne(filter, document);
+        UpdateResult result = mongoCollection.updateMany(filter, document);
     }
 }
