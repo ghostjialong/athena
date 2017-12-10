@@ -28,4 +28,6 @@ message Request{
 
     optional Message message = 7;
 
+    optional string requestId = 8;
+
 }

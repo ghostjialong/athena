@@ -13,7 +13,7 @@ enum messageType {
 
 message Message{
 
-    required int64 messageId = 1;
+    optional int64 messageId = 1;
 
     required int64 senderId = 2;
 

@@ -1,6 +1,7 @@
 package com.athena.exchange.driver;
 
 import com.athena.exchange.AbstractBroker;
+import com.athena.protobuf.MessageEntity;
 import com.rabbitmq.client.*;
 import org.apache.commons.lang.StringUtils;
 
@@ -70,12 +71,12 @@ public class RabbitMQConnector implements MessageQueue{
     }
 
     // 订阅私有消息
-    public void subscribe(String queue, String topic) throws IOException {
+    public Consumer subscribe(String queue, String topic) throws IOException {
         // 需要记录下订阅的topic, 方便与消息broker 重连后的订阅关系恢复
         // to be continued.......
         channel.queueDeclare(queue, false, false, false, null);
         channel.queueBind(queue, exchange, topic);
-        register(queue);
+        return register(queue);
     }
 
     public void deleteQueue(String queueName) throws Exception {
@@ -83,6 +84,7 @@ public class RabbitMQConnector implements MessageQueue{
     }
 
     public void pubMessage(String topic, byte[] body) throws IOException {
+        MessageEntity.Message message = MessageEntity.Message.parseFrom(body);
         publishMessage(channel, topic, exchange, body);
     }
 
@@ -91,8 +93,10 @@ public class RabbitMQConnector implements MessageQueue{
         ch.basicPublish(exchange, routingKey, false, null, body);
     }
 
-    public void register(String queue) throws IOException {
-        channel.basicConsume(queue, RabbitConsumerFactory.getConsumer(channel, messageBroker));
+    public Consumer register(String queue) throws IOException {
+        Consumer consumer = RabbitConsumerFactory.getConsumer(channel, messageBroker);
+        channel.basicConsume(queue, consumer);
+        return consumer;
     }
 
     public byte[] syncMessageGetSync(String queue) throws IOException {

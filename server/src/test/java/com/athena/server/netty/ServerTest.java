@@ -29,8 +29,8 @@ public class ServerTest {
         new Thread(()->{
             testServer.start();
         }).start();
-        NettyClient testClient = new NettyClient("127.0.0.1", 8069);
-        testClient.connect();
+        //NettyClient testClient = new NettyClient("127.0.0.1", 8069);
+        //testClient.connect();
     }
 
     public static void main(String[] args) {

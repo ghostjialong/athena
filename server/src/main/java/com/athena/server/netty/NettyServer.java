@@ -55,8 +55,8 @@ public class NettyServer {
 
                         public void initChannel(SocketChannel ch){
                             ch.pipeline().addLast(new ProtobufDecoder(RequestEntity.Request.getDefaultInstance()))
-                                    .addLast(new IdleStateHandler(5, 5,
-                                            5,  TimeUnit.SECONDS) {
+                                    .addLast(new IdleStateHandler(100, 100,
+                                            300,  TimeUnit.SECONDS) {
                                         @Override
                                         protected  void channelIdle(ChannelHandlerContext ctx, IdleStateEvent evt) throws Exception {
                                             Channel ch = ctx.channel();
@@ -74,6 +74,7 @@ public class NettyServer {
                                     .addLast(messageHandler);
                         }
                     }).childOption(ChannelOption.SO_BACKLOG, 128)
+                    .childOption(ChannelOption.SO_LINGER, 0)
                     .childOption(ChannelOption.SO_KEEPALIVE, true);
             ChannelFuture future = serverBootstrap.bind(port).sync();
             future.channel().closeFuture().sync();

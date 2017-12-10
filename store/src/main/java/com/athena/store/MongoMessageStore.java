@@ -40,7 +40,7 @@ public class MongoMessageStore implements MessageStore {
             Document document = Document.parse(messageEntity);
             mongoConnector.insertOne(collection, document);
         } catch (JsonProcessingException e) {
-
+            e.printStackTrace();
         }
     }
 

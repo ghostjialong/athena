@@ -3,14 +3,12 @@ package com.athena.exchange;
 import com.athena.protobuf.MessageEntity;
 import com.athena.client.ClientIdentity;
 import com.athena.store.MessageStore;
+import com.rabbitmq.client.Consumer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Logger;
 
 /**
@@ -36,42 +34,49 @@ public class MessageDeliver {
 
     private static Map<Long, ClientIdentity> clientMap = new HashMap();
 
-    private static Map<Integer, List<ClientIdentity>> clientGroupMap= new HashMap();
-
+    private static Map<Consumer, String> consumerMap = new HashMap();
     private final String EXCHANGE_UBICAST = "direct";
     private final String EXCHANGE_BROADCAST = "fanout";
     private final String EXCHANGE_PREFIX = "MESSAGE_BRLOKER_EXCHANGE_{0}";
 
+    public boolean isSubscribed(ClientIdentity clientIdentity) {
+        return clientMap.containsKey(clientIdentity.getClientId());
+    }
+
     // 订阅单播私有消息
     public void subscribe(ClientIdentity clientIdentity) {
-        clientMap.put(clientIdentity.getClientId(), clientIdentity);
+        // 检查下是否之前订阅过
+        if (isSubscribed(clientIdentity)) {
+            clientMap.put(clientIdentity.getClientId(), clientIdentity);
+            return;
+        }
         // 生成客户端消息队列
-        String queueName = MessageFormat.format(CLIENT_QUEUE_PREFIX,
-                String.valueOf(clientIdentity.getClientId()));
+        clientMap.put(clientIdentity.getClientId(), clientIdentity);
         String topic = MessageFormat.format(TOPIC_PREFIX,
+                String.valueOf(clientIdentity.getClientId()));
+        String queueName = MessageFormat.format(CLIENT_QUEUE_PREFIX,
                 String.valueOf(clientIdentity.getClientId()));
         messageBroker.subscribe(queueName, topic);
     }
 
     // 订阅组播群组消息
     public void subscribe(ClientIdentity clientIdentity, int groupId) {
-        // clientMap.put(clientIdentity.getClientId(), clientIdentity);
-        logger.info("client begin to subscribe.....");
-        List<ClientIdentity> clients = clientGroupMap.get(groupId);
-        if (clients == null ) {
-            System.out.println("aaaaaaaaaaaa");
-            clients = new ArrayList<ClientIdentity>();
-            clients.add(clientIdentity);
-        } else {
-            clients.add(clientIdentity);
+        // 检查下是否之前订阅过
+        if (isSubscribed(clientIdentity)) {
+            clientMap.put(clientIdentity.getClientId(), clientIdentity);
+            return;
         }
-        clientGroupMap.put(groupId, clients);
-
+        // 生成客户端消息队列
+        clientMap.put(clientIdentity.getClientId(), clientIdentity);
         String queueName = MessageFormat.format(CLIENT_QUEUE_PREFIX,
                 String.valueOf(clientIdentity.getClientId()));
         String topic = MessageFormat.format(TOPIC_Group_PREFIX,
                 String.valueOf(groupId));
         messageBroker.subscribe(queueName, topic);
+    }
+
+    public static void registerConsumer(String queueName, Consumer consumer) {
+        consumerMap.put(consumer, queueName);
     }
 
     public void pubMessage(MessageEntity.Message message) {
@@ -97,21 +102,15 @@ public class MessageDeliver {
         }
     }
 
-    public void deliverData(MessageEntity.Message message) {
+    public void deliverData(MessageEntity.Message message, Consumer consumer) {
         //1. 消息入缓存队列存储，
         // messageStore.sinkData(message);
         logger.info("test data deliverd here");
-        //2. 消息投递，
-        if (message.getType().equals(MessageEntity.messageType.TO_GROUP) ) {
-            List<ClientIdentity> clients = clientGroupMap.get(message.getGroupId());
-            for (ClientIdentity clientIdentity : clients) {
-                logger.info("enter loop......");
-                pushMessage(message, clientIdentity);
-            }
-        } else {
-            ClientIdentity clientIdentity = clientMap.get(message.getRecipientId());
-            pushMessage(message, clientIdentity);
-        }
+        logger.info("caonima: " + message.getMessageId());
+        String queueName = consumerMap.get(consumer);
+        Long clientId = Long.valueOf(queueName.substring(queueName.lastIndexOf("_") + 1));
+        ClientIdentity clientIdentity = clientMap.get(clientId);
+        pushMessage(message, clientIdentity);
         logger.info("data got here!");
         //3. 收到ack 确认消息， 执行消息确认删除
 

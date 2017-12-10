@@ -1,6 +1,7 @@
 package com.athena.exchange.driver;
 
 import com.athena.exchange.AbstractBroker;
+import com.rabbitmq.client.Consumer;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
@@ -16,11 +17,11 @@ public interface MessageQueue {
 
     byte[] syncMessageGetSync(String queue) throws IOException;
 
-    void register(String queue) throws IOException;
+    Consumer register(String queue) throws IOException;
 
     void deleteQueue(String queueName) throws Exception;
 
-    public void subscribe(String queue, String topic) throws IOException;
+    Consumer subscribe(String queue, String topic) throws IOException;
 
     void setMessageBroker(AbstractBroker messageBroker);
 

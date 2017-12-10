@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.util.Properties;
 import java.util.logging.Logger;
 
+import static com.mongodb.WriteConcern.ACKNOWLEDGED;
+
 /**
  * Created by wangjialong on 11/19/17.
  */
@@ -35,11 +37,15 @@ public class MongoConnector {
             properties.load(MongoConnector.class.getClassLoader().getResourceAsStream(configName));
             clientUrl = properties.getProperty("clientUrl");
             database  = properties.getProperty("database");
-            MongoClientURI uri = new MongoClientURI(clientUrl);
+            MongoClientURI uri = new MongoClientURI(clientUrl, new MongoClientOptions.Builder()
+                    .connectTimeout(1000)
+                    .socketTimeout(1000)
+                    .connectionsPerHost(100)
+                    .serverSelectionTimeout(1000)
+                    .threadsAllowedToBlockForConnectionMultiplier(50)
+                    .readPreference(ReadPreference.primaryPreferred())
+                    .writeConcern(ACKNOWLEDGED));
             MongoClient mongoClient = new MongoClient(uri);
-            MongoClientOptions options = new MongoClientOptions.Builder()
-                    .connectTimeout(1)
-                    .maxWaitTime(5).build();
             mongoDatabase = mongoClient.getDatabase(database);
         } catch (IOException e) {
 

@@ -188,6 +188,20 @@ public final class RequestEntity {
      * <code>optional .com.athena.protobuf.Message message = 7;</code>
      */
     com.athena.protobuf.MessageEntity.MessageOrBuilder getMessageOrBuilder();
+
+    /**
+     * <code>optional string requestId = 8;</code>
+     */
+    boolean hasRequestId();
+    /**
+     * <code>optional string requestId = 8;</code>
+     */
+    java.lang.String getRequestId();
+    /**
+     * <code>optional string requestId = 8;</code>
+     */
+    com.google.protobuf.ByteString
+        getRequestIdBytes();
   }
   /**
    * Protobuf type {@code com.athena.protobuf.Request}
@@ -207,6 +221,7 @@ public final class RequestEntity {
       authToken_ = "";
       messageId_ = 0L;
       groupId_ = 0;
+      requestId_ = "";
     }
 
     @java.lang.Override
@@ -283,6 +298,12 @@ public final class RequestEntity {
                 message_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000020;
+              break;
+            }
+            case 66: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000040;
+              requestId_ = bs;
               break;
             }
           }
@@ -434,6 +455,48 @@ public final class RequestEntity {
       return message_ == null ? com.athena.protobuf.MessageEntity.Message.getDefaultInstance() : message_;
     }
 
+    public static final int REQUESTID_FIELD_NUMBER = 8;
+    private volatile java.lang.Object requestId_;
+    /**
+     * <code>optional string requestId = 8;</code>
+     */
+    public boolean hasRequestId() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>optional string requestId = 8;</code>
+     */
+    public java.lang.String getRequestId() {
+      java.lang.Object ref = requestId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          requestId_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string requestId = 8;</code>
+     */
+    public com.google.protobuf.ByteString
+        getRequestIdBytes() {
+      java.lang.Object ref = requestId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        requestId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -482,6 +545,9 @@ public final class RequestEntity {
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         output.writeMessage(7, getMessage());
       }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 8, requestId_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -512,6 +578,9 @@ public final class RequestEntity {
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(7, getMessage());
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(8, requestId_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -558,6 +627,11 @@ public final class RequestEntity {
         result = result && getMessage()
             .equals(other.getMessage());
       }
+      result = result && (hasRequestId() == other.hasRequestId());
+      if (hasRequestId()) {
+        result = result && getRequestId()
+            .equals(other.getRequestId());
+      }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -594,6 +668,10 @@ public final class RequestEntity {
       if (hasMessage()) {
         hash = (37 * hash) + MESSAGE_FIELD_NUMBER;
         hash = (53 * hash) + getMessage().hashCode();
+      }
+      if (hasRequestId()) {
+        hash = (37 * hash) + REQUESTID_FIELD_NUMBER;
+        hash = (53 * hash) + getRequestId().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -741,6 +819,8 @@ public final class RequestEntity {
           messageBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000020);
+        requestId_ = "";
+        bitField0_ = (bitField0_ & ~0x00000040);
         return this;
       }
 
@@ -793,6 +873,10 @@ public final class RequestEntity {
         } else {
           result.message_ = messageBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        result.requestId_ = requestId_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -854,6 +938,11 @@ public final class RequestEntity {
         }
         if (other.hasMessage()) {
           mergeMessage(other.getMessage());
+        }
+        if (other.hasRequestId()) {
+          bitField0_ |= 0x00000040;
+          requestId_ = other.requestId_;
+          onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -1222,6 +1311,82 @@ public final class RequestEntity {
         }
         return messageBuilder_;
       }
+
+      private java.lang.Object requestId_ = "";
+      /**
+       * <code>optional string requestId = 8;</code>
+       */
+      public boolean hasRequestId() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
+      }
+      /**
+       * <code>optional string requestId = 8;</code>
+       */
+      public java.lang.String getRequestId() {
+        java.lang.Object ref = requestId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            requestId_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string requestId = 8;</code>
+       */
+      public com.google.protobuf.ByteString
+          getRequestIdBytes() {
+        java.lang.Object ref = requestId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          requestId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string requestId = 8;</code>
+       */
+      public Builder setRequestId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000040;
+        requestId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string requestId = 8;</code>
+       */
+      public Builder clearRequestId() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        requestId_ = getDefaultInstance().getRequestId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string requestId = 8;</code>
+       */
+      public Builder setRequestIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000040;
+        requestId_ = value;
+        onChanged();
+        return this;
+      }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
@@ -1286,14 +1451,14 @@ public final class RequestEntity {
   static {
     java.lang.String[] descriptorData = {
       "\n\rrequest.proto\022\023com.athena.protobuf\032\rme" +
-      "ssage.proto\"\267\001\n\007Request\0224\n\013requestType\030\001" +
+      "ssage.proto\"\312\001\n\007Request\0224\n\013requestType\030\001" +
       " \002(\0162\037.com.athena.protobuf.PacketType\022\020\n" +
       "\010clientId\030\003 \002(\003\022\021\n\tauthToken\030\004 \002(\t\022\021\n\tme" +
       "ssageId\030\005 \001(\003\022\017\n\007groupId\030\006 \001(\005\022-\n\007messag" +
-      "e\030\007 \001(\0132\034.com.athena.protobuf.Message*<\n" +
-      "\nPacketType\022\r\n\tHANDSHAKE\020\001\022\r\n\tSUBSCRIBE\020" +
-      "\002\022\007\n\003ACK\020\003\022\007\n\003PUB\020\004B&\n\023com.athena.protob" +
-      "ufB\rRequestEntityH\001"
+      "e\030\007 \001(\0132\034.com.athena.protobuf.Message\022\021\n" +
+      "\trequestId\030\010 \001(\t*<\n\nPacketType\022\r\n\tHANDSH" +
+      "AKE\020\001\022\r\n\tSUBSCRIBE\020\002\022\007\n\003ACK\020\003\022\007\n\003PUB\020\004B&" +
+      "\n\023com.athena.protobufB\rRequestEntityH\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -1313,7 +1478,7 @@ public final class RequestEntity {
     internal_static_com_athena_protobuf_Request_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_athena_protobuf_Request_descriptor,
-        new java.lang.String[] { "RequestType", "ClientId", "AuthToken", "MessageId", "GroupId", "Message", });
+        new java.lang.String[] { "RequestType", "ClientId", "AuthToken", "MessageId", "GroupId", "Message", "RequestId", });
     com.athena.protobuf.MessageEntity.getDescriptor();
   }
 

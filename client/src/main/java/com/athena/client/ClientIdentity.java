@@ -11,7 +11,7 @@ import io.netty.channel.Channel;
  */
 public class ClientIdentity {
 
-    private long clientId;
+    private Long clientId;
 
     private Channel channel;
 
@@ -34,4 +34,15 @@ public class ClientIdentity {
         byteBuf.writeBytes(message.toByteArray());
         channel.writeAndFlush(byteBuf);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return this.clientId == this.getClass().cast(obj).getClientId();
+    }
+
+    @Override
+    public int hashCode() {
+        return clientId.hashCode();
+    }
+
 }
