@@ -4,6 +4,7 @@ import com.athena.exchange.MessageDeliver;
 import com.athena.protobuf.MessageEntity;
 import com.athena.protobuf.RequestEntity;
 import com.athena.server.netty.handler.HandleShakeHandler;
+import com.athena.server.netty.handler.HeartBeatHandler;
 import com.athena.server.netty.handler.MessageHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
@@ -43,6 +44,9 @@ public class NettyServer {
     @Autowired
     public HandleShakeHandler handleShakeHandler;
 
+    @Autowired
+    public HeartBeatHandler heartBeatHandler;
+
     public void start() {
         EventLoopGroup workGroup = new NioEventLoopGroup();
         EventLoopGroup bossGroup = new NioEventLoopGroup();
@@ -55,8 +59,8 @@ public class NettyServer {
 
                         public void initChannel(SocketChannel ch){
                             ch.pipeline().addLast(new ProtobufDecoder(RequestEntity.Request.getDefaultInstance()))
-                                    .addLast(new IdleStateHandler(100, 100,
-                                            300,  TimeUnit.SECONDS) {
+                                    .addLast(new IdleStateHandler(10, 10,
+                                            10,  TimeUnit.SECONDS) {
                                         @Override
                                         protected  void channelIdle(ChannelHandlerContext ctx, IdleStateEvent evt) throws Exception {
                                             Channel ch = ctx.channel();
@@ -70,11 +74,13 @@ public class NettyServer {
                                             logger.info("channel closed after idle");
                                         }
                                     })
+                                    .addLast(heartBeatHandler)
                                     .addLast(handleShakeHandler)
                                     .addLast(messageHandler);
                         }
                     }).childOption(ChannelOption.SO_BACKLOG, 128)
                     .childOption(ChannelOption.SO_LINGER, 0)
+                    .childOption(ChannelOption.SO_REUSEADDR, true)
                     .childOption(ChannelOption.SO_KEEPALIVE, true);
             ChannelFuture future = serverBootstrap.bind(port).sync();
             future.channel().closeFuture().sync();

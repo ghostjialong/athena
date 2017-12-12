@@ -35,6 +35,10 @@ public final class RequestEntity {
      * <code>PUB = 4;</code>
      */
     PUB(4),
+    /**
+     * <code>PING = 5;</code>
+     */
+    PING(5),
     ;
 
     /**
@@ -53,6 +57,10 @@ public final class RequestEntity {
      * <code>PUB = 4;</code>
      */
     public static final int PUB_VALUE = 4;
+    /**
+     * <code>PING = 5;</code>
+     */
+    public static final int PING_VALUE = 5;
 
 
     public final int getNumber() {
@@ -73,6 +81,7 @@ public final class RequestEntity {
         case 2: return SUBSCRIBE;
         case 3: return ACK;
         case 4: return PUB;
+        case 5: return PING;
         default: return null;
       }
     }
@@ -1456,9 +1465,10 @@ public final class RequestEntity {
       "\010clientId\030\003 \002(\003\022\021\n\tauthToken\030\004 \002(\t\022\021\n\tme" +
       "ssageId\030\005 \001(\003\022\017\n\007groupId\030\006 \001(\005\022-\n\007messag" +
       "e\030\007 \001(\0132\034.com.athena.protobuf.Message\022\021\n" +
-      "\trequestId\030\010 \001(\t*<\n\nPacketType\022\r\n\tHANDSH" +
-      "AKE\020\001\022\r\n\tSUBSCRIBE\020\002\022\007\n\003ACK\020\003\022\007\n\003PUB\020\004B&" +
-      "\n\023com.athena.protobufB\rRequestEntityH\001"
+      "\trequestId\030\010 \001(\t*F\n\nPacketType\022\r\n\tHANDSH" +
+      "AKE\020\001\022\r\n\tSUBSCRIBE\020\002\022\007\n\003ACK\020\003\022\007\n\003PUB\020\004\022\010" +
+      "\n\004PING\020\005B&\n\023com.athena.protobufB\rRequest" +
+      "EntityH\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

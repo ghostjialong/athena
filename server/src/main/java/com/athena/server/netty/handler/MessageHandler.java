@@ -93,6 +93,7 @@ public class MessageHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
+        cause.printStackTrace();
         logger.info("fuck......");
         //cause.printStackTrace();
     }

@@ -1,5 +1,6 @@
 package com.athena.client;
 
+import com.athena.common.ResponseCode;
 import com.athena.protobuf.MessageEntity;
 import com.athena.protobuf.RequestEntity;
 import com.athena.protobuf.ResponseEntity;
@@ -15,7 +16,7 @@ import io.netty.handler.codec.protobuf.ProtobufEncoder;
 
 import java.util.Random;
 import java.util.UUID;
-import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.*;
 import java.util.logging.Logger;
 
 /**
@@ -39,7 +40,12 @@ public class NettyClient {
         this.address = address;
         this.port = port;
         requestClient = new RequestClient();
-        clientId = 105008676;
+        // clientId = 105008676;
+        int max = 19999;
+        int min = 10000;
+        Random random = new Random();
+        int s = random.nextInt(max)%(max-min+1) + min;
+        clientId = (long) s;
     }
 
     public NettyClient() {
@@ -53,6 +59,27 @@ public class NettyClient {
 
     public void start() {
         this.connect();
+        // 启动心跳线程
+
+    }
+
+    private void doWork() {
+        ScheduledExecutorService service = Executors.newScheduledThreadPool(1);
+        logger.info("submit a heat beat task");
+        service.scheduleAtFixedRate(()->{
+            RequestEntity.Request request = RequestEntity.Request.newBuilder()
+                    .setRequestType(RequestEntity.PacketType.PING)
+                    .setRequestId(UUID.randomUUID().toString())
+                    .setAuthToken("MhxzKhl")
+                    .setClientId(clientId).build();
+            ResponseEntity.Response response = requestClient.call(channel, request);
+            logger.info("heart beat requested,, response : " + response.toString());
+            if (!response.getCode().equals(ResponseCode.PONG)) {
+                // server 端不响应， 连接可能已死， 重连消息服务
+            }
+        }, 5,5, TimeUnit.SECONDS);
+        subscribe();
+        sendMessage();
     }
 
     public ChannelFuture connect() {
@@ -68,20 +95,21 @@ public class NettyClient {
                                     .addLast("client_handler", getMessageHandler());
                         }
                     })
-                    .option(ChannelOption.SO_KEEPALIVE, true);
+                    .option(ChannelOption.SO_KEEPALIVE, true)
+                    .option(ChannelOption.SO_REUSEADDR, true);
 
             ChannelFuture future = bootstrap.connect(address, port);
             future.addListener((ChannelFuture future2)-> {
                 System.out.println("connect to server......");
                 channel = future2.channel();
-                //future2.channel().writeAndFlush(request).addListener((ChannelFuture thisFuture) -> {
-                //    System.out.println(thisFuture.isSuccess());
-                //});
-                Thread th = new Thread(()->{
-                    subscribe();
-                    sendMessage();
-                });
-                th.start();
+                if (future2.isSuccess()) {
+                    Thread th = new Thread(()->{
+                        doWork();
+                    });
+                    th.start();
+                } else {
+                    future2.cause().printStackTrace();
+                }
                 latch.countDown();
             });
             latch.await();

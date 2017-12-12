@@ -10,8 +10,9 @@ option optimize_for = SPEED;
 enum PacketType {
     HANDSHAKE = 1;
     SUBSCRIBE = 2;
-    ACK = 3;
-    PUB = 4;
+    ACK  = 3;
+    PUB  = 4;
+    PING = 5;
 }
 
 message Request{

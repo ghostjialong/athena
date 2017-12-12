@@ -35,7 +35,8 @@ public class MongoMessageStore implements MessageStore {
         try {
             Message messageOj = new Message(message.getSenderId(),
                     message.getRecipientId(), message.getMessageId(),
-                    message.getType().getNumber(), message.getGroupId());
+                    message.getType().getNumber(), message.getGroupId()
+                    , message.getBody());
             String messageEntity = mapper.writeValueAsString(messageOj);
             Document document = Document.parse(messageEntity);
             mongoConnector.insertOne(collection, document);

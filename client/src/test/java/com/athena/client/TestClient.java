@@ -16,7 +16,7 @@ public class TestClient {
     @Before
     public void setup() {
         nettyClient = new NettyClient("127.0.0.1", 8069);
-        future = nettyClient.connect();
+        nettyClient.start();
     }
 
     @Test

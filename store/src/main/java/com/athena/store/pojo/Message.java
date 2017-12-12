@@ -21,12 +21,14 @@ public class Message {
 
     public long groupId = -1;
 
+    public String body = "";
+
     public Message() {
 
     }
 
     public Message(Long fromUserId, long toUserId, Long messageId,
-                   int type, long groupId ) {
+                   int type, long groupId, String body ) {
         this.fromUserId = fromUserId;
         this.toUserId = toUserId;
         this.messageId = messageId;
@@ -34,6 +36,7 @@ public class Message {
         this.groupId = groupId;
         this.createTime = System.currentTimeMillis() / 1000;
         this.ackTime = Long.valueOf(-1);
+        this.body = body;
     }
 
     public static class Builder {
