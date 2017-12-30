@@ -1,6 +1,8 @@
 package com.athena.server.netty.handler;
 
-import com.athena.client.IdallocClient;
+import com.alibaba.dubbo.config.annotation.Reference;
+import com.athena.idalloc.api.IdRequest;
+import com.athena.idalloc.client.IdallocClient;
 import com.athena.exchange.MessageDeliver;
 import com.athena.protobuf.MessageEntity;
 import com.athena.protobuf.RequestEntity;
@@ -14,15 +16,13 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.Field;
-import java.util.UUID;
 import java.util.logging.Logger;
 
 /**
  * Created by wangjialong on 11/7/17.
  */
 
-@Component
+@Component("messageHandler")
 @ChannelHandler.Sharable
 public class MessageHandler extends ChannelInboundHandlerAdapter {
 
@@ -111,11 +111,14 @@ public class MessageHandler extends ChannelInboundHandlerAdapter {
         return messageWithId;
     }
 
-    private Long generateMessageId()  {
+    public Long generateMessageId()  {
         Long result;
         try {
-            result = IdallocClient.requestIdAlloc();
+            //result = idallocDubbo.idAllocForRequest
+            //result = IdallocClient.requestIdAlloc();
+            result = idallocClient.requestIdAllocDubbo();
         } catch (Exception e) {
+            System.out.println(e);
             result = Long.valueOf(-1);
         }
         return result;

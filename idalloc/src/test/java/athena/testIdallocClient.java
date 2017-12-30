@@ -1,6 +1,6 @@
-package com.athena;
+package athena;
 
-import com.athena.client.IdallocClient;
+import com.athena.idalloc.client.IdallocClient;
 import org.junit.Test;
 
 /**

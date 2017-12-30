@@ -10,11 +10,11 @@
   <modules>
     <module>common</module>
     <module>protobuf</module>
+    <module>idalloc</module>
     <module>server</module>
     <module>client</module>
     <module>exchange</module>
     <module>store</module>
-    <module>idalloc</module>
   </modules>
 
   <name>im-server</name>
@@ -75,6 +75,7 @@
       <artifactId>spring-context</artifactId>
       <version>5.0.1.RELEASE</version>
     </dependency>
+
     <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
